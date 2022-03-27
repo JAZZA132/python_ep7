@@ -38,23 +38,28 @@ if win32gui.IsIzconic(hwndMain):
     win32gui.ShowWindow(hwndMain,win32con.SW_SHOWMAXIMIZED)
 win32gui.SetForegroundWindow(hwndMain) #畫面至頂
 print(hwndMain)
-
-time.sleep(1)
+time.sleep(0.5)
 
 
 
 
 img= pag.locateOnScreen('2w9.png',confidence=0.9) #判斷螢幕上的圖片做別
+time.sleep(1)
 if img == None:
     print("沒有")
     pag.moveTo(left+500,bottom-100,duration=1) #拖曳滑鼠
+    time.sleep(0.3)
     pag.dragTo(left+500,bottom-300,duration=1) #拖曳滑鼠
+    time.sleep(0.3)
     img2= pag.locateOnScreen('2w9.png',confidence=0.9)
+    time.sleep(0.3)
     if img2 == None:
         #沒找到 刷新
         print('也沒有')
         pag.press('z',interval=0.25)
+        time.sleep(0.3)
         pag.press('space',interval=0.25)
+        time.sleep(0.3)
     else:
         #下拉後找到
         print(img2)
