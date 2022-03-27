@@ -1,4 +1,3 @@
-import pyautogui as pag
 import  os
 import  time
 import win32gui
@@ -7,14 +6,16 @@ import win32api
 from PIL import Image
 import math
 import operator
-# from functools import reduce
-# from fuzzywuzzy import fuzz
-import pyautogui
+import pyautogui as pag
 
+# python基於win32實現窗口截圖
 # hwnd_title = dict()
 # def _get_all_hwnd(hwnd, mouse):
 #  if win32gui.IsWindow(hwnd) and win32gui.IsWindowEnabled(hwnd) and win32gui.IsWindowVisible(hwnd):
 #   hwnd_title.update({hwnd: win32gui.GetWindowText(hwnd)})
+# win32gui.EnumWindows(_get_all_hwnd, 0)
+# for wnd in hwnd_title.items():
+#  print(wnd)
 
 # try:
 #     while True:
@@ -33,12 +34,30 @@ hwndMain = win32gui.FindWindow(None, "夜神模擬器")
 # win32gui.MoveWindow(hwndMain,900,100,1000,500,False)
 left,top,right,bottom = win32gui.GetWindowRect(hwndMain)
 # print(left,top,right,bottom)
+if win32gui.IsIzconic(hwndMain):
+    win32gui.ShowWindow(hwndMain,win32con.SW_SHOWMAXIMIZED)
 win32gui.SetForegroundWindow(hwndMain) #畫面至頂
+print(hwndMain)
+
+time.sleep(1)
 
 
 
-# win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP | win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-i= pyautogui.locateOnScreen('equipment.png')
-print(i)
-pag.moveTo(1383,206,duration=0.5) #拖曳滑鼠
-pag.dragTo(1383,top-20,button='left')
+
+img= pag.locateOnScreen('2w9.png',confidence=0.9) #判斷螢幕上的圖片做別
+if img == None:
+    print("沒有")
+    pag.moveTo(left+500,bottom-100,duration=1) #拖曳滑鼠
+    pag.dragTo(left+500,bottom-300,duration=1) #拖曳滑鼠
+    img2= pag.locateOnScreen('2w9.png',confidence=0.9)
+    if img2 == None:
+        #沒找到 刷新
+        print('也沒有')
+        pag.press('z',interval=0.25)
+        pag.press('space',interval=0.25)
+    else:
+        #下拉後找到
+        print(img2)
+
+else:
+   print(img)
